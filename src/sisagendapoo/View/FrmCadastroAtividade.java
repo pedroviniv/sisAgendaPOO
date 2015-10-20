@@ -176,6 +176,7 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
         jLabel8.setText("Tipo:");
 
         textData.setFormat(2);
+        textData.setFieldFont(new java.awt.Font("Yu Gothic Light", java.awt.Font.PLAIN, 12));
 
         jLabel9.setText("Até:");
 
