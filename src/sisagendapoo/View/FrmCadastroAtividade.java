@@ -65,10 +65,22 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
         return a;
     }
 
-    private void cadastrarAtividade(Atividade a, Usuario loggedUser) throws SQLException, IOException
+    private void cadastrarAtividade(Usuario loggedUser)
     {
         ControlUsuario control = new ControlUsuario();
-        control.cadastraAtividade(a, loggedUser);
+        try
+        {
+            Atividade a = getAtividade(textDescricao.getText(), textData.getText(), textTimeInicio.getText(), textTimeFinal.getText(), textLocal.getText(), comboTipoAtividade.getSelectedItem().toString());
+            control.cadastraAtividade(a, loggedUser);
+            JOptionPane.showMessageDialog(this, "Atividade cadastrada com sucesso! :)");
+            this.dispose();
+        }
+        catch(SQLException | IOException | TimeInterferenceException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        catch(DateTimeParseException dtpe){
+            JOptionPane.showMessageDialog(this, "Por favor, insira uma hora válida!");
+        }
     }
 
     //All generated Swing code
@@ -175,7 +187,7 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
             ex.printStackTrace();
         }
 
-        comboTipoAtividade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PESSOAL", "PROFESSIONAL", "ACADEMICO" }));
+        comboTipoAtividade.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "PESSOAL", "PROFISSIONAL", "ACADEMICO" }));
         comboTipoAtividade.addActionListener(new java.awt.event.ActionListener()
         {
             public void actionPerformed(java.awt.event.ActionEvent evt)
@@ -370,44 +382,16 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
     {//GEN-HEADEREND:event_btnCadastrarActionPerformed
         if (convidados.isEmpty())
         {
-            int i = JOptionPane.showConfirmDialog(this, "Parece que você não adicionou nenhum convidado...\n Você deseja prosseguir?");
+            int i = JOptionPane.showConfirmDialog(this, "Parece que você não adicionou nenhum convidado...\nVocê deseja prosseguir?");
             switch (i)
             {
                 case JOptionPane.OK_OPTION:
-                    try
-                    {
-                        System.out.println(comboTipoAtividade.getSelectedItem().toString());
-                        Atividade a = getAtividade(textDescricao.getText(), textData.getText(), textTimeInicio.getText(), textTimeFinal.getText(), textLocal.getText(), comboTipoAtividade.getSelectedItem().toString());
-                        try
-                        {
-                            cadastrarAtividade(a, loggedUser);
-                            JOptionPane.showMessageDialog(this, "Atividade cadastrada com sucesso! :)");
-                        }
-                        catch (SQLException | IOException | TimeInterferenceException ex)
-                        {
-                            JOptionPane.showMessageDialog(this, ex.getMessage());
-                        }
-                    }
-                    catch (DateTimeParseException dtpe)
-                    {
-                        JOptionPane.showMessageDialog(this, "Por favor, insira uma hora válida!");
-                    }
+                    cadastrarAtividade(loggedUser);
                     break;
             }
         }
         else
-        {
-            Atividade a = getAtividade(textDescricao.getText(), textData.getText(), textTimeInicio.getText(), textTimeFinal.getText(), textLocal.getText(), comboTipoAtividade.getSelectedItem().toString());
-            try
-            {
-                cadastrarAtividade(a, loggedUser);
-                JOptionPane.showMessageDialog(this, "Atividade cadastrada com sucesso! :)");
-            }
-            catch (SQLException | IOException | TimeInterferenceException ex)
-            {
-                JOptionPane.showMessageDialog(this, ex.getMessage());
-            }
-        }
+            cadastrarAtividade(loggedUser);
     }//GEN-LAST:event_btnCadastrarActionPerformed
 
 

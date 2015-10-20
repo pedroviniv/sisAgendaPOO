@@ -311,7 +311,7 @@
                 <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
                   <StringArray count="3">
                     <StringItem index="0" value="PESSOAL"/>
-                    <StringItem index="1" value="PROFESSIONAL"/>
+                    <StringItem index="1" value="PROFISSIONAL"/>
                     <StringItem index="2" value="ACADEMICO"/>
                   </StringArray>
                 </Property>
