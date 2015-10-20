@@ -58,6 +58,9 @@ public class FrmCadastroUsuario extends javax.swing.JFrame
         try
         {
             ru.cadastraUsuario(nome, email, senha, telefone, dataNascimento);
+            cleanFields();
+            JOptionPane.showMessageDialog(this, "Usuário cadastro com sucesso! Bem Vindo, "+nome+"! :)");
+            this.dispose();
         }
         catch(EmailJaCadastradoException | SQLException ex){
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -302,7 +305,6 @@ public class FrmCadastroUsuario extends javax.swing.JFrame
     {//GEN-HEADEREND:event_btnCadastrarActionPerformed
         if(!isThereEmptyFields()){
             cadastraUsuario();
-            cleanFields();
         }
         else
             JOptionPane.showMessageDialog(this, "Por favor, preencha todos os campos!");
