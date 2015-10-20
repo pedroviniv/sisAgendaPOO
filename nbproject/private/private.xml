@@ -2,6 +2,17 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/View/FrmUsuario.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/Control/ControlUsuario.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/Control/ControlSistem.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/Control/ControlAtividade.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/View/FrmCadastroAtividade.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/View/SisAgendaPOO.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/Model/TipoAtividade.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/Model/Atividade.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/DAO/AtividadeDAO.java</file>
+            <file>file:/C:/Users/kieckegard/Documents/NetBeansProjects/sisAgendaPOO/src/sisagendapoo/imgs/door_exit.png</file>
+        </group>
     </open-files>
 </project-private>
