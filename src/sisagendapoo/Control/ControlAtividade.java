@@ -81,6 +81,14 @@ public class ControlAtividade
         dao.remove(a);
     }
     
+    public Atividade getAtividadeById(int id, Usuario u) throws SQLException{
+        return dao.getAtividadeById(id, u);
+    }
+    
+    public void atualizaAtividade(Atividade a) throws SQLException, IOException{
+        dao.update(a);
+    }
+    
  
     
 }

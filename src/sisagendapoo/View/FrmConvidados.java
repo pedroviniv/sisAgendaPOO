@@ -60,6 +60,8 @@ public class FrmConvidados extends javax.swing.JFrame
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Gerenciamento de Convidados");
+        setResizable(false);
 
         jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
 

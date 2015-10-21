@@ -62,6 +62,8 @@ public class FrmLogin extends javax.swing.JFrame
         btnCriarConta = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Login");
+        setLocation(new java.awt.Point(0, 0));
 
         jPanelMain.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.RAISED));
 

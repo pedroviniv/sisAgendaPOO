@@ -17,4 +17,5 @@ import sisagendapoo.Model.Usuario;
 public interface IAtividadeDAO extends DAO<Atividade>
 {
     List<Atividade> list(Usuario u) throws SQLException;
+    Atividade getAtividadeById(int id,Usuario u) throws SQLException;
 }

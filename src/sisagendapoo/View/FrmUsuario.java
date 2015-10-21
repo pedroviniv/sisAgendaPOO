@@ -5,7 +5,6 @@
  */
 package sisagendapoo.View;
 
-import java.io.IOException;
 import java.sql.SQLException;
 import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
@@ -22,13 +21,14 @@ public class FrmUsuario extends javax.swing.JFrame
 {
     private final Login login;
     private DefaultTableModel dataModel;
+    private BalloonTip balloon;
     
     public FrmUsuario(Login login)
     {
         initComponents();
-        this.login = login;
-        loadlabelName();
         dataModel = (DefaultTableModel)jTableAtividades.getModel();
+        this.login = login;
+        loadlabelName(); 
         loadAtividades();
     }
     
@@ -38,26 +38,32 @@ public class FrmUsuario extends javax.swing.JFrame
     }
     
     private void addRow(Atividade a){
-        dataModel.addRow(new Object[] {a.getFormattedDate(),a.getHoraInicio().toString(),a.getLocal(),a.getDescricao(),a.getConvidadosString()});
-        //jTableAtividades.setModel(dataModel);
+        dataModel.addRow(new Object[] {a.getId(),a.getFormattedDate(),a.getHoraInicio().toString(),a.getLocal(),a.getDescricao(),a.getConvidadosString()});   
+        jTableAtividades.setModel(dataModel);
     }
 
-    private void loadAtividades(){
-        dataModel = new DefaultTableModel();
+    public void loadAtividades(){
         ControlAtividade ca = new ControlAtividade();
+        dataModel.setRowCount(0);
         try
         {
-            for(Atividade a : ca.atividadesByUser(login.getLoggedUser())){
+            for(Atividade a : ca.orderByDate(ca.atividadesByUser(login.getLoggedUser()))){
+                System.out.println(a.getDescricao());
                addRow(a); 
             }
         }
         catch(SQLException ex){
             JOptionPane.showMessageDialog(this, "Não foi possível carregar a lista de atividades!");
         }
-        
     }
     
-    
+    private Atividade getAtividadeBySelectedRow() throws SQLException{
+        int indexColumn, indexRow;
+        indexRow = jTableAtividades.getSelectedRow();
+        int id = (int)dataModel.getValueAt(indexRow, 0);
+        ControlAtividade ca = new ControlAtividade();
+        return ca.getAtividadeById(id, login.getLoggedUser());
+    }
     
     
     //All generated Swing code
@@ -116,7 +122,7 @@ public class FrmUsuario extends javax.swing.JFrame
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Atividades", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Yu Gothic Light", 1, 11))); // NOI18N
 
         jTableAtividades.setBackground(new java.awt.Color(240, 240, 240));
-        jTableAtividades.setFont(new java.awt.Font("Yu Gothic Light", 0, 11)); // NOI18N
+        jTableAtividades.setFont(new java.awt.Font("Trebuchet MS", 0, 12)); // NOI18N
         jTableAtividades.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][]
             {
@@ -124,17 +130,17 @@ public class FrmUsuario extends javax.swing.JFrame
             },
             new String []
             {
-                "Data", "Hora", "Local", "Descrição", "Convidados"
+                "id", "Data", "Hora", "Local", "Descrição", "Convidados"
             }
         )
         {
             Class[] types = new Class []
             {
-                java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
             };
             boolean[] canEdit = new boolean []
             {
-                false, false, false, false, false
+                true, false, false, false, false, false
             };
 
             public Class getColumnClass(int columnIndex)
@@ -149,7 +155,18 @@ public class FrmUsuario extends javax.swing.JFrame
         });
         jTableAtividades.setSelectionBackground(new java.awt.Color(202, 200, 229));
         jTableAtividades.getTableHeader().setReorderingAllowed(false);
+        jTableAtividades.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseClicked(java.awt.event.MouseEvent evt)
+            {
+                jTableAtividadesMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(jTableAtividades);
+        if (jTableAtividades.getColumnModel().getColumnCount() > 0)
+        {
+            jTableAtividades.getColumnModel().getColumn(0).setMaxWidth(40);
+        }
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -163,9 +180,9 @@ public class FrmUsuario extends javax.swing.JFrame
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap(23, Short.MAX_VALUE)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23))
+                .addContainerGap())
         );
 
         btnAddActivity.setIcon(new javax.swing.ImageIcon(getClass().getResource("/sisagendapoo/imgs/file_add.png"))); // NOI18N
@@ -186,6 +203,13 @@ public class FrmUsuario extends javax.swing.JFrame
             public void mouseMoved(java.awt.event.MouseEvent evt)
             {
                 lblInformationMouseMoved(evt);
+            }
+        });
+        lblInformation.addMouseListener(new java.awt.event.MouseAdapter()
+        {
+            public void mouseExited(java.awt.event.MouseEvent evt)
+            {
+                lblInformationMouseExited(evt);
             }
         });
 
@@ -265,8 +289,7 @@ public class FrmUsuario extends javax.swing.JFrame
 
     private void lblInformationMouseMoved(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblInformationMouseMoved
     {//GEN-HEADEREND:event_lblInformationMouseMoved
-        BalloonTip b = new BalloonTip(lblInformation, "Information!");
-        b.setVisible(true);
+        balloon = new BalloonTip(lblInformation, "Information!");
     }//GEN-LAST:event_lblInformationMouseMoved
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_jMenuItem1ActionPerformed
@@ -276,9 +299,32 @@ public class FrmUsuario extends javax.swing.JFrame
 
     private void btnAddActivityActionPerformed(java.awt.event.ActionEvent evt)//GEN-FIRST:event_btnAddActivityActionPerformed
     {//GEN-HEADEREND:event_btnAddActivityActionPerformed
-        FrmCadastroAtividade fca = new FrmCadastroAtividade(login.getLoggedUser());
+        FrmCadastroAtividade fca = new FrmCadastroAtividade(login.getLoggedUser(),this);
         fca.setVisible(true);
     }//GEN-LAST:event_btnAddActivityActionPerformed
+
+    private void lblInformationMouseExited(java.awt.event.MouseEvent evt)//GEN-FIRST:event_lblInformationMouseExited
+    {//GEN-HEADEREND:event_lblInformationMouseExited
+        
+    }//GEN-LAST:event_lblInformationMouseExited
+
+    private void jTableAtividadesMouseClicked(java.awt.event.MouseEvent evt)//GEN-FIRST:event_jTableAtividadesMouseClicked
+    {//GEN-HEADEREND:event_jTableAtividadesMouseClicked
+        try
+        {
+            Atividade a = getAtividadeBySelectedRow();
+            if(a==null){
+                JOptionPane.showMessageDialog(this, "Nenhuma atividade encontrada!");
+            }
+            else{
+                FrmMinhaAtividade frmAtividade = new FrmMinhaAtividade(a,this);
+                frmAtividade.setVisible(true);
+            }
+        }
+        catch(SQLException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+    }//GEN-LAST:event_jTableAtividadesMouseClicked
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

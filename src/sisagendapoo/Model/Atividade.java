@@ -104,10 +104,35 @@ public class Atividade implements Comparable<Atividade>
         this.id = id;
     }
 
+    public void setData(LocalDate data)
+    {
+        this.data = data;
+    }
+
+    public void setHoraInicio(LocalTime horaInicio)
+    {
+        this.horaInicio = horaInicio;
+    }
+
+    public void setHoraFim(LocalTime horaFim)
+    {
+        this.horaFim = horaFim;
+    }
+
+    public void setLocal(String local)
+    {
+        this.local = local;
+    }
+
+    public void setTipo(TipoAtividade tipo)
+    {
+        this.tipo = tipo;
+    }
+
     @Override
     public int compareTo(Atividade o)
     {
-        Period p = Period.between(data, o.data);
+        Period p = Period.between(o.data, data);
         return p.getDays();
     }
     

@@ -29,13 +29,15 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
 
     private final List<String> convidados;
     private final Usuario loggedUser;
+    private final FrmUsuario usuarioMain;
 
-    public FrmCadastroAtividade(Usuario loggedUser)
+    public FrmCadastroAtividade(Usuario loggedUser, FrmUsuario janela)
     {
         initComponents();
         this.setResizable(false);
         convidados = new ArrayList<>();
         this.loggedUser = loggedUser;
+        usuarioMain = janela;
     }
 
     private void cleanFields()
@@ -64,7 +66,7 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
         a.setConvidao(convidados);
         return a;
     }
-
+    
     private void cadastrarAtividade(Usuario loggedUser)
     {
         ControlUsuario control = new ControlUsuario();
@@ -73,6 +75,7 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
             Atividade a = getAtividade(textDescricao.getText(), textData.getText(), textTimeInicio.getText(), textTimeFinal.getText(), textLocal.getText(), comboTipoAtividade.getSelectedItem().toString());
             control.cadastraAtividade(a, loggedUser);
             JOptionPane.showMessageDialog(this, "Atividade cadastrada com sucesso! :)");
+            usuarioMain.loadAtividades();
             this.dispose();
         }
         catch(SQLException | IOException | TimeInterferenceException ex){
@@ -114,6 +117,8 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
         btnCancel = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Nova atividade");
+        setResizable(false);
 
         jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
 

@@ -34,31 +34,32 @@ public class AtividadeDAO implements IAtividadeDAO
         pstm.setString(1, obj.getDescricao());
         pstm.setDate(2, java.sql.Date.valueOf(obj.getData()));
         pstm.setTime(3, java.sql.Time.valueOf(obj.getHoraInicio()));
-        pstm.setTime(4, java.sql.Time.valueOf(obj.getHoraFim()));       
+        pstm.setTime(4, java.sql.Time.valueOf(obj.getHoraFim()));
         pstm.setString(5, obj.getLocal());
         pstm.setString(6, obj.getTipo().name());
         pstm.setString(7, obj.getUsuario().getEmail());
         pstm.executeUpdate();
         ResultSet rs = pstm.getGeneratedKeys();
-        int id=0;
-        if(rs.next())
+        int id = 0;
+        if (rs.next())
+        {
             id = rs.getInt("id");
+        }
         obj.setId(id);
         pstm.close();
         /*
-            preciso pegar a id que o banco gerou pra atividade e setar na atividade,
-            caso eu não faça isso o método abaixo não vai funcionar, afinal, ele usa 
-            o id da atividade pra poder pegar os apenas os convidados dessa atividade.
-        */
-        getConvidados(obj);
+         preciso pegar a id que o banco gerou pra atividade e setar na atividade,
+         caso eu não faça isso o método abaixo não vai funcionar, afinal, ele usa 
+         o id da atividade pra poder pegar os apenas os convidados dessa atividade.
+         */
+        addConvidados(obj);
     }
-    
-    public void getConvidados(Atividade obj) throws SQLException{
-        System.out.println("oi!");
+
+    public void addConvidados(Atividade obj) throws SQLException
+    {
         System.out.println(obj.getConvidados());
-        for(String email : obj.getConvidados())
+        for (String email : obj.getConvidados())
         {
-            System.out.println("adicionando convidados");
             System.out.println(email);
             String sql = "INSERT INTO Atividade_Convidado VALUES(?,?)";
             pstm = DAOConnection.getConnection().prepareCall(sql);
@@ -72,17 +73,36 @@ public class AtividadeDAO implements IAtividadeDAO
     @Override
     public void remove(Atividade obj) throws SQLException
     {
-        String sql = "DELETE FROM Atividade a WHERE a.id=?";
+        removeAtividadeConvidados(obj.getId());
+        String sql = "DELETE FROM Atividade WHERE id=?";
         pstm = DAOConnection.getConnection().prepareCall(sql);
         pstm.setInt(1, obj.getId());
         pstm.executeUpdate();
         pstm.close();
     }
+    
+    public void removeAtividadeConvidados(int id) throws SQLException{
+        String sql = "DELETE FROM ATIVIDADE_CONVIDADO WHERE atividade_id=?";
+        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm.setInt(1,id);
+        pstm.executeUpdate();
+    }
 
     @Override
     public void update(Atividade obj) throws SQLException
     {
-        //TODO
+        removeAtividadeConvidados(obj.getId());
+        addConvidados(obj);
+        String sql = "UPDATE ATIVIDADE SET horaInicio=?, horaFinal=?, data=?, local=?, tipo=? WHERE id=?";
+        
+        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm.setTime(1, java.sql.Time.valueOf(obj.getHoraInicio()));
+        pstm.setTime(2, java.sql.Time.valueOf(obj.getHoraFim()));
+        pstm.setDate(3, java.sql.Date.valueOf(obj.getData()));
+        pstm.setString(4, obj.getLocal());
+        pstm.setString(5, obj.getTipo().name());
+        pstm.setInt(6, obj.getId());
+        pstm.executeUpdate();
     }
 
     @Override
@@ -118,11 +138,13 @@ public class AtividadeDAO implements IAtividadeDAO
         pstm2.setInt(1, atividadeId);
         ResultSet rs2 = pstm2.executeQuery();
         while (rs2.next())
+        {
             convidados.add(rs2.getString("email"));
+        }
         pstm2.close();
         return convidados;
     }
-    
+
     @Override
     public List<Atividade> list(Usuario u) throws SQLException
     {
@@ -150,6 +172,28 @@ public class AtividadeDAO implements IAtividadeDAO
         }
         pstm.close();
         return atividades;
+    }
+
+    @Override
+    public Atividade getAtividadeById(int id,Usuario u) throws SQLException
+    {
+        String sql = "SELECT * FROM Atividade WHERE id=?";
+        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm.setInt(1, id);
+        ResultSet rs = pstm.executeQuery();  
+        List<String> convidados = getConvidados(id);
+        if(rs.next()){
+            String tipo = rs.getString("tipo");
+            String local = rs.getString("local");
+            String descricao = rs.getString("descricao");
+            LocalDate data = rs.getDate("data").toLocalDate();
+            LocalTime horaInicio = rs.getTime("horaInicio").toLocalTime();
+            LocalTime horaFim = rs.getTime("horaFinal").toLocalTime();
+            Atividade a = new Atividade(data,horaInicio,horaFim,local,TipoAtividade.valueOf(tipo),descricao,u);
+            a.setConvidao(convidados);
+            a.setId(id);
+            return a;
+        }return null;
     }
 
 }
