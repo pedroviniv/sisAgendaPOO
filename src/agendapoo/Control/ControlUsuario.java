@@ -37,7 +37,7 @@ public class ControlUsuario implements Login
     
     public ControlUsuario(){
         controlAtividade = new ControlAtividade();
-        usuarioDAO = new UsuarioDAOjdbc();
+        usuarioDAO = new UsuarioDAOarquivo();
     }
     
     

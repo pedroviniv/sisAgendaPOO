@@ -37,7 +37,7 @@ public class ControlAtividade implements AtividadeController
     private final IAtividadeDAO dao;
 
     public ControlAtividade(){
-        dao = new AtividadeDAOjdbc();
+        dao = new AtividadeDAOarquivo();
         sender = new ControlEmail();
     }
     

@@ -97,7 +97,7 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
             JOptionPane.showMessageDialog(this, "Por favor, insira uma hora válida!", "Hora inválida.", JOptionPane.ERROR_MESSAGE);
         }
         catch(EmailException ex){
-            ex.printStackTrace();
+            JOptionPane.showMessageDialog(this, ex.getMessage(),"Problema ao enviar e-mail!",JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -135,7 +135,7 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
         setTitle("Nova atividade");
         setResizable(false);
 
-        jPanel1.setBorder(new javax.swing.border.MatteBorder(null));
+        jPanel1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         jLabel2.setFont(new java.awt.Font("Yu Gothic Light", 0, 36)); // NOI18N
         jLabel2.setText("Cadastro de");

@@ -82,6 +82,7 @@ public class ControlEmail implements EmailSender
         email.setAuthentication("sysagenda@gmail.com","Sisagendapoo");
         email.addTo(toStringArray(atividade.getConvidados()));
         email.send();
+        
     }
 
     

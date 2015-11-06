@@ -103,7 +103,7 @@ public class FrmMyAccount extends javax.swing.JFrame
         setTitle("Sua Conta!");
         setResizable(false);
 
-        jPanelTitle.setBorder(new javax.swing.border.MatteBorder(null));
+        jPanelTitle.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
         lblHello.setFont(new java.awt.Font("Yu Gothic Light", 0, 18)); // NOI18N
         lblHello.setText("Olá, ");

@@ -12,7 +12,7 @@
             <MenuItem class="javax.swing.JMenuItem" name="btnMyAccount">
               <Properties>
                 <Property name="accelerator" type="javax.swing.KeyStroke" editor="org.netbeans.modules.form.editors.KeyStrokeEditor">
-                  <KeyStroke key="Ctrl+A"/>
+                  <KeyStroke key="Ctrl+M"/>
                 </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/agendapoo/imgs/account-icon2.png"/>

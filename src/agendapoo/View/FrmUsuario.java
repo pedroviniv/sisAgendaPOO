@@ -260,7 +260,7 @@ public class FrmUsuario extends javax.swing.JFrame
 
         jMenu1.setText("Menu");
 
-        btnMyAccount.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+        btnMyAccount.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_M, java.awt.event.InputEvent.CTRL_MASK));
         btnMyAccount.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendapoo/imgs/account-icon2.png"))); // NOI18N
         btnMyAccount.setText("Sua Conta");
         btnMyAccount.addActionListener(new java.awt.event.ActionListener()
