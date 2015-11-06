@@ -20,7 +20,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * Classe responsável pela persistência e manipulação de usuários em arquivo binário.
  * @author kieckegard
  */
 public class UsuarioDAOarquivo implements DAO<Usuario>
@@ -36,28 +36,42 @@ public class UsuarioDAOarquivo implements DAO<Usuario>
         }
     }
     
+    /**
+     * Método responsável por persistir um determinado usuário no arquivo.
+     * @param usuario - instância de usuário
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     @Override
-    public void add(Usuario obj) throws SQLException, IOException, ClassNotFoundException
+    public void add(Usuario usuario) throws SQLException, IOException, ClassNotFoundException
     {
         List<Usuario> lista = this.list();
-        lista.add(obj);
+        lista.add(usuario);
         ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(arquivo));
         os.writeObject(lista);
         os.close();
     }
 
+    /**
+     * Método responsável por deletar um usuário no arquivo.
+     * @param usuario - instância de usuário que deve ser deletado
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     @Override
-    public void delete(Usuario obj) throws SQLException, IOException, ClassNotFoundException
+    public void delete(Usuario usuario) throws SQLException, IOException, ClassNotFoundException
     {
         //primeira deleta todas as atividades relacionadas com o usuário a ser deletado
         IAtividadeDAO dao = new AtividadeDAOarquivo();
-        dao.deleteByUser(obj);
+        dao.deleteByUser(usuario);
         
         //Finalmente deleta o usuário
         List<Usuario> lista = this.list();
         for(Iterator<Usuario> i = lista.iterator(); i.hasNext();){
             Usuario u = i.next();
-            if(u.getEmail().equals(obj.getEmail()))
+            if(u.getEmail().equals(usuario.getEmail()))
                 i.remove();
         }
         ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(arquivo));
@@ -65,23 +79,40 @@ public class UsuarioDAOarquivo implements DAO<Usuario>
         os.close();
     }
 
+    /**
+     * Método responsável por atualizar os dados de um usuário no arquivo.
+     * A instância de usuário passada por parâmetro já deve estar atualizada com
+     * os novos dados.
+     * @param usuario - Instância de Usuario já com os dados atualizados que deverá 
+     * atualizar no arquivo.
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     @Override
-    public void update(Usuario obj) throws SQLException, IOException, ClassNotFoundException
+    public void update(Usuario usuario) throws SQLException, IOException, ClassNotFoundException
     {
         List<Usuario> lista = this.list();
         for(Usuario u : lista){
-            if(u.getEmail().equals(obj.getEmail()))
+            if(u.getEmail().equals(usuario.getEmail()))
             {
-                u.setNome(obj.getNome());
-                u.setSenha(obj.getSenha());
-                u.setTelefone(obj.getTelefone());
+                u.setNome(usuario.getNome());
+                u.setSenha(usuario.getSenha());
+                u.setTelefone(usuario.getTelefone());
             }
         }
         ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(arquivo));
         os.writeObject(lista);
         os.close();
     }
-
+    
+    /**
+     * Método responsável por pegar do arquivo uma Lista contendo todos os usuários cadastrados no sistema.
+     * @return List de Usuário com todos os usuário salvos no arquivo.
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     @Override
     public List<Usuario> list() throws SQLException, IOException, ClassNotFoundException
     {
