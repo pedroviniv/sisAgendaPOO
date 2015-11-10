@@ -10,7 +10,7 @@ import agendapoo.Model.Usuario;
 import org.apache.commons.mail.EmailException;
 
 /**
- *
+ * Interface com o método para enviar o e-mail para os convidados
  * @author kieckegard
  */
 public interface EmailSender

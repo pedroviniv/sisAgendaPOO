@@ -97,7 +97,8 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
             JOptionPane.showMessageDialog(this, "Por favor, insira uma hora válida!", "Hora inválida.", JOptionPane.ERROR_MESSAGE);
         }
         catch(EmailException ex){
-            JOptionPane.showMessageDialog(this, ex.getMessage(),"Problema ao enviar e-mail!",JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, "Não foi possível enviar e-mail para os convidados cadastrados,"
+                    + "por favor, verifique sua conexão com a internet e tente novamente.","Erro ao enviar e-mail",JOptionPane.ERROR_MESSAGE);
         }
     }
 

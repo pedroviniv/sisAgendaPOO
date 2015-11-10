@@ -6,7 +6,7 @@
 package agendapoo.Exceptions;
 
 /**
- *
+ * Exceção que será lançada quando, quando tenta-se logar usando credenciais não existentes.
  * @author kieckegard
  */
 public class UsuarioNaoExistenteException extends RuntimeException

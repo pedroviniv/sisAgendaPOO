@@ -6,7 +6,8 @@
 package agendapoo.Exceptions;
 
 /**
- *
+ * Exceção que será lançada caso o usuário tente cadastrar um e-mail já existente no banco de dados
+ * ou arquivo.
  * @author kieckegard
  */
 public class EmailJaCadastradoException extends Exception

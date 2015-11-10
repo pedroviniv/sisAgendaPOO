@@ -19,7 +19,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *
+ *  Classe responsável pela persistência e manipulação de atividades persistidas no 
+ *  Banco de dados. 
  * @author kieckegard
  */
 public class AtividadeDAOjdbc implements IAtividadeDAO
@@ -28,13 +29,23 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
 
     private PreparedStatement pstm;
     
+    /**
+     * Método responsável por puxar todas as atividades do banco de dados que foram
+     * cadastradas pelo usuário passado por parâmetro.
+     * @param usuario - Usuário cujas atividades devem ser recuperadas
+     * @return - List de Atividade com todas as atividades cadastradas pelo usuário
+     * passado por parâmetro.
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     @Override
-    public List<Atividade> list(Usuario u) throws SQLException, IOException, ClassNotFoundException
+    public List<Atividade> list(Usuario usuario) throws SQLException, IOException, ClassNotFoundException
     {
         List<Atividade> atividades = new ArrayList<>();
         String sql = "SELECT * FROM Atividade WHERE email_usuario=?";
         pstm = DAOConnection.getConnection().prepareCall(sql);
-        pstm.setString(1, u.getEmail());
+        pstm.setString(1, usuario.getEmail());
         ResultSet rs = pstm.executeQuery();
         while(rs.next()){
             //descricao,data,local,horaInicio,horaFim,convidados
@@ -45,7 +56,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
             LocalTime horaFim = rs.getTime("horaFim").toLocalTime();
             String id = rs.getString("id");
             TipoAtividade tipo = TipoAtividade.valueOf(rs.getString("tipo"));
-            Atividade a = new Atividade(descricao,local,data,horaInicio,horaFim,tipo,u);
+            Atividade a = new Atividade(descricao,local,data,horaInicio,horaFim,tipo,usuario);
             a.setId(id);
             List<String> convidados = getConvidados(a.getId());
             a.setConvidados(convidados);
@@ -90,43 +101,70 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
         addConvidados(obj);
     }
     
-    private void addConvidados(Atividade a) throws SQLException{
-        for(String convidado : a.getConvidados()){
+    /**
+     * Método responsável por salvar os convidados de uma atividade no banco
+     * à tabela Atividade_convidado que possui a relação entre todas as atividades 
+     * e seus respectivos convidados.
+     * @param atividade - Instância da Atividade com, Atividade possui uma Lista de Convidados
+     * que é acessada através do método get.
+     * @throws SQLException 
+     */
+    private void addConvidados(Atividade atividade) throws SQLException{
+        for(String convidado : atividade.getConvidados()){
             String sql = "INSERT INTO Atividade_Convidado VALUES(?,?)";
             pstm = DAOConnection.getConnection().prepareCall(sql);
-            pstm.setString(1, a.getId());
+            pstm.setString(1, atividade.getId());
             pstm.setString(2, convidado);
             pstm.executeUpdate();
         }
         pstm.close();
     }
 
+    /**
+     * Método responsável por deletar uma atividade persistida no banco de dados.
+     * A procura da atividade passada por parâmetro no banco é feita através do atributo Id
+     * de Atividade.
+     * @param atividade - Instância de atividade que deve ser removida do banco.
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     @Override
-    public void delete(Atividade obj) throws SQLException, IOException, ClassNotFoundException
+    public void delete(Atividade atividade) throws SQLException, IOException, ClassNotFoundException
     {
-        deleteConvidados(obj);
+        deleteConvidados(atividade);
         String sql = "DELETE FROM ATIVIDADE WHERE id = ?";
         pstm = DAOConnection.getConnection().prepareCall(sql);
-        pstm.setString(1, obj.getId());
+        pstm.setString(1, atividade.getId());
         pstm.executeUpdate();
     }
 
+    /**
+     * Método responsável por atualizar todos os dados que foram alterados da instância de Atividade
+     * no banco de dados.
+     * A procura da atividade passada por parâmetro no banco é feita através do atributo Id
+     * de Atividade.
+     * @param atividade - Instância de atividade que deve ser atualizada no banco.
+     * @throws SQLException
+     * @throws IOException
+     * @throws ClassNotFoundException 
+     */
     @Override
-    public void update(Atividade obj) throws SQLException, IOException, ClassNotFoundException
+    public void update(Atividade atividade) throws SQLException, IOException, ClassNotFoundException
     {
         //Deleta convidados anteriores
-        this.deleteConvidados(obj);
+        this.deleteConvidados(atividade);
         //Adiciona convidados atualizados
-        this.addConvidados(obj);
+        this.addConvidados(atividade);
         //Atualiza dados de atividade
         String sql = "UPDATE ATIVIDADE SET descricao=?, local=?, data=?, horaInicio=?, horaFim=?, tipo=? WHERE id = ?";
         pstm = DAOConnection.getConnection().prepareCall(sql);
-        pstm.setString(1,obj.getDescricao());
-        pstm.setString(2,obj.getLocal());
-        pstm.setDate(3, java.sql.Date.valueOf(obj.getData()));
-        pstm.setTime(4, java.sql.Time.valueOf(obj.getHoraInicio()));
-        pstm.setTime(5, java.sql.Time.valueOf(obj.getHoraFim()));
-        pstm.setString(6, obj.getTipo().name());
+        pstm.setString(1,atividade.getDescricao());
+        pstm.setString(2,atividade.getLocal());
+        pstm.setDate(3, java.sql.Date.valueOf(atividade.getData()));
+        pstm.setTime(4, java.sql.Time.valueOf(atividade.getHoraInicio()));
+        pstm.setTime(5, java.sql.Time.valueOf(atividade.getHoraFim()));
+        pstm.setString(6, atividade.getTipo().name());
         pstm.executeUpdate();
     }
 
@@ -136,6 +174,11 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
         throw new UnsupportedOperationException("Not implemented yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
+    /**
+     * 
+     * @param a
+     * @throws SQLException 
+     */
     public void deleteConvidados(Atividade a) throws SQLException{
         String sql = "DELETE FROM ATIVIDADE_CONVIDADO WHERE id_atividade = ?";
         pstm = DAOConnection.getConnection().prepareCall(sql);

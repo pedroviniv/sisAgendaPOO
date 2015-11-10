@@ -12,7 +12,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- *
+ * Classe modelo de Usuário contendo todos os atributos referentes ao mesmo.
  * @author kieckegard
  */
 public class Usuario implements Serializable
@@ -55,6 +55,12 @@ public class Usuario implements Serializable
         return dataNascimento;
     }
     
+    /**
+     * LocalDate possui o formato da data seguindo esse modelo "yyyy-MM-dd", esse
+     * método tem como objetivo retornar a String da LocalDate com sua data
+     * no formato "dd/MM/yyyy".
+     * @return String contendo a data formatada no padrão dd/MM/yyyy.
+     */
     public String getFormattedDate(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return dataNascimento.format(dtf);

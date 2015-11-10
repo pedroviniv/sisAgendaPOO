@@ -99,6 +99,7 @@ public class UsuarioDAOarquivo implements DAO<Usuario>
                 u.setNome(usuario.getNome());
                 u.setSenha(usuario.getSenha());
                 u.setTelefone(usuario.getTelefone());
+                u.setDataNascimento(usuario.getDataNascimento());
             }
         }
         ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(arquivo));

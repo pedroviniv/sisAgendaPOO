@@ -5,27 +5,11 @@
  */
 package agendapoo.Model;
 
-import java.awt.Color;
-
 /**
- *
+ * Enum contendo os possíveis tipos de atividade que você poderá cadastrar.
  * @author kieckegard
  */
 public enum TipoAtividade
 {
-    PESSOAL{
-        public Color getColor(){
-            return null;
-        }
-    }
-    ,PROFISSIONAL{
-        public Color getColor(){
-            return null;
-        }
-    }
-    ,ACADEMICO{
-        public Color getColor(){
-            return null;
-        }
-    }
+    PESSOAL,PROFISSIONAL,ACADEMICO
 }

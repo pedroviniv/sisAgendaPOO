@@ -17,7 +17,7 @@ import org.apache.commons.lang.builder.EqualsBuilder;
 import org.apache.commons.lang.builder.HashCodeBuilder;
 
 /**
- *
+ * Classe modelo de Atividade com todos os atributos referentes a mesma.
  * @author kieckegard
  */
 public class Atividade implements Serializable, Comparable<Atividade>
@@ -89,6 +89,12 @@ public class Atividade implements Serializable, Comparable<Atividade>
         return data;
     }
     
+    /**
+     * LocalDate possui o formato da data seguindo esse modelo "yyyy-MM-dd", esse
+     * método tem como objetivo retornar a String da LocalDate com sua data
+     * no formato "dd/MM/yyyy".
+     * @return String contendo a data formatada no padrão dd/MM/yyyy.
+     */
     public String getFormattedDate(){
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         return this.data.format(dtf);
@@ -124,6 +130,10 @@ public class Atividade implements Serializable, Comparable<Atividade>
         return convidados;
     }
     
+    /**
+     * Método responsável por retornar todos os convidados da atividade em String.
+     * @return String contendo todos os convidados da atividade.
+     */
     public String getConvidadosString(){
         String output = "";
         for(String convidado : convidados)

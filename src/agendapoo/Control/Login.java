@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 
 /**
- *
+ * Interface com os métodos necessários por fazer a autenticação e realizar o Login do usuário no sistema
  * @author kieckegard
  */
 public interface Login

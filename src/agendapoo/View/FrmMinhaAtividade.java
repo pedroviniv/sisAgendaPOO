@@ -151,7 +151,6 @@ public class FrmMinhaAtividade extends javax.swing.JFrame
         selectedAtividade.setHoraInicio(LocalTime.parse(textHoraInicio.getText()));
         selectedAtividade.setHoraFim(LocalTime.parse(textHoraFinal.getText()));
         selectedAtividade.setLocal(textLocal.getText());
-        System.out.println("Novo local: "+selectedAtividade.getLocal());
         selectedAtividade.setTipo(TipoAtividade.valueOf(comboTipoAtividade.getSelectedItem().toString()));
         AtividadeController ca = new ControlAtividade();
         ca.atualizaAtividade(a);
@@ -554,17 +553,19 @@ public class FrmMinhaAtividade extends javax.swing.JFrame
             int i = JOptionPane.showConfirmDialog(this, "Tem certeza que desejas remover essa atividade?", "Aviso", JOptionPane.YES_NO_OPTION);
             switch(i){
                 case JOptionPane.YES_OPTION:
-                    JOptionPane.showMessageDialog(this, "Atividade removida com sucesso! :)");
-                    JOptionPane.showMessageDialog(null, "Estamos enviando um e-mail avisando aos convidados que a atividade foi desmarcada!");
                     deleteAtividade();
-                    JOptionPane.showMessageDialog(this, "Mensagem enviada!");     
+                    JOptionPane.showMessageDialog(this, "Atividade removida com sucesso! :)");
                     usuarioMain.loadAtividades();
                     this.dispose();
                     break;
             }
         }
-        catch(SQLException | IOException | ClassNotFoundException | EmailException ex){
+        catch(SQLException | IOException | ClassNotFoundException ex){
             JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
+        catch(EmailException ex){
+            JOptionPane.showMessageDialog(this, "Não foi possível enviar o e-mail para os convidados, por favor, "
+                    + "verifique sua conexão com a internet e tente novamente.","Problema ao enviar e-mail",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnRemoveActionPerformed
 
@@ -581,11 +582,15 @@ public class FrmMinhaAtividade extends javax.swing.JFrame
                     break;
             }
         }
-        catch(SQLException | IOException | ClassNotFoundException | InvalidTimeRangeException | TimeInterferenceException | EmailException ex){
+        catch(SQLException | IOException | ClassNotFoundException | InvalidTimeRangeException | TimeInterferenceException ex){
             JOptionPane.showMessageDialog(this, ex.getMessage(),"Error",JOptionPane.ERROR_MESSAGE);
         }
         catch(DateTimeParseException dtpe){
             JOptionPane.showMessageDialog(this, "Por favor, Insira uma hora válida!","Hora Inválida",JOptionPane.ERROR_MESSAGE);
+        }
+        catch(EmailException ex){
+            JOptionPane.showMessageDialog(this, "Não foi possível enviar o e-mail para os convidados, por favor, "
+                    + "verifique sua conexão com a internet e tente novamente.","Problema ao enviar e-mail",JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_btnSaveChangesActionPerformed
 

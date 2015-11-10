@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 /**
- *
+ * Classe responsável por se conectar com o banco de dados postgresql.
  * @author kieckegard
  */
 public class DAOConnection
@@ -20,6 +20,12 @@ public class DAOConnection
     private final static String password="123456";
     private static Connection conn;
     
+    /**
+     * Método estático responsável por retornar uma conexão contendo a conexão com o banco
+     * de dados postgresql.
+     * @return - Instância de Connection
+     * @throws SQLException 
+     */
     public static Connection getConnection() throws SQLException{
         if(conn == null)
             conn = DriverManager.getConnection(url,username,password);

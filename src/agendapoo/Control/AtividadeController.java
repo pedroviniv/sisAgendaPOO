@@ -16,7 +16,7 @@ import java.util.List;
 import org.apache.commons.mail.EmailException;
 
 /**
- *
+ * Interface com todos os métodos referentes à manipulação de atividades.
  * @author kieckegard
  */
 public interface AtividadeController

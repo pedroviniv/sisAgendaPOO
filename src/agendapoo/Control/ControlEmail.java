@@ -12,7 +12,8 @@ import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.SimpleEmail;
 
 /**
- *
+ * Classe que implementa EmailSender, contendo todos os métodos necessários para
+ * enviar o e-mail para todos os convidados da atividade desejada.
  * @author kieckegard
  */
 public class ControlEmail implements EmailSender

@@ -73,9 +73,9 @@ public class ControlAtividade implements AtividadeController
         if(isValidTimeByUser(data_aux,start,end,u)){
             Atividade a = new Atividade(descricao,local,data_aux,start,end,tipo,u);
             a.setConvidados(convidados);
-            dao.add(a);
             if(!convidados.isEmpty())
                 sender.sendEmail(a, a.getUsuario(),TipoEmail.CREATE);
+            dao.add(a);
         }else throw new TimeInterferenceException("Houve um choque de horário com outras atividades cadastradas. \nPor favor, selecione um outro horário!");
     }
 
@@ -90,9 +90,9 @@ public class ControlAtividade implements AtividadeController
     @Override
     public void deletaAtividade(Atividade atividade) throws SQLException, IOException, ClassNotFoundException, EmailException
     {
-        dao.delete(atividade);
         if(!atividade.getConvidados().isEmpty())
             sender.sendEmail(atividade, atividade.getUsuario(),TipoEmail.DELETE);
+        dao.delete(atividade);
     }
 
     /**
@@ -113,9 +113,9 @@ public class ControlAtividade implements AtividadeController
         if(!isTimeRangeValid(atividade.getHoraInicio(),atividade.getHoraFim()))
             throw new InvalidTimeRangeException("Ué, sua atividade vai durar um tempo negativo? Por favor, ajeita isso!");
         if(isValidTimeUpdate(atividade)){
-            dao.update(atividade);
             if(!atividade.getConvidados().isEmpty())
                 sender.sendEmail(atividade, atividade.getUsuario(),TipoEmail.UPDATE);
+            dao.update(atividade);
         }else throw new TimeInterferenceException("Houve um choque de horário com outras atividades cadastradas. \nPor favor, selecione um outro horário!");
     }
     
