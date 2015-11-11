@@ -99,7 +99,7 @@ public class FrmMyAccount extends javax.swing.JFrame
         textSenha = new javax.swing.JTextField();
         textTelefone = new javax.swing.JFormattedTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Sua Conta!");
         setResizable(false);
 

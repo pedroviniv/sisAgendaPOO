@@ -98,7 +98,7 @@ public class FrmUsuario extends javax.swing.JFrame
         btnMyAccount = new javax.swing.JMenuItem();
         jMenuItem1 = new javax.swing.JMenuItem();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Minhas Atividades");
         setResizable(false);
 

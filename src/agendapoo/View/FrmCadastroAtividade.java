@@ -132,7 +132,7 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
         btnCadastrar = new javax.swing.JButton();
         btnCancel = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Nova atividade");
         setResizable(false);
 
@@ -229,7 +229,6 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendapoo/imgs/clock.png"))); // NOI18N
 
-        textData.setFormat(2);
         textData.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 12));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
