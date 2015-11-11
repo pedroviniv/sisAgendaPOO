@@ -5,6 +5,7 @@
  */
 package agendapoo.DAO.JDBC;
 
+import agendapoo.Banco.FactoryConnection;
 import agendapoo.DAO.IAtividadeDAO;
 import agendapoo.Model.Atividade;
 import agendapoo.Model.TipoAtividade;
@@ -44,7 +45,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
     {
         List<Atividade> atividades = new ArrayList<>();
         String sql = "SELECT * FROM Atividade WHERE email_usuario=?";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1, usuario.getEmail());
         ResultSet rs = pstm.executeQuery();
         while(rs.next()){
@@ -70,7 +71,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
     public List<String> getConvidados(String id) throws SQLException{
         List<String> convidados = new ArrayList<>();
         String sql = "SELECT email FROM Atividade_Convidado WHERE id_atividade = ?";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1, id);
         ResultSet rs = pstm.executeQuery();
         while(rs.next()){
@@ -86,7 +87,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
     {
        //descricao,data,local,horaInicio,horaFim,convidados
         String sql = "INSERT INTO Atividade VALUES(?,?,?,?,?,?,?,?)";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1, obj.getId());
         pstm.setString(2, obj.getDescricao());
         pstm.setString(3, obj.getLocal());
@@ -112,7 +113,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
     private void addConvidados(Atividade atividade) throws SQLException{
         for(String convidado : atividade.getConvidados()){
             String sql = "INSERT INTO Atividade_Convidado VALUES(?,?)";
-            pstm = DAOConnection.getConnection().prepareCall(sql);
+            pstm = FactoryConnection.getConnection().prepareCall(sql);
             pstm.setString(1, atividade.getId());
             pstm.setString(2, convidado);
             pstm.executeUpdate();
@@ -134,7 +135,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
     {
         deleteConvidados(atividade);
         String sql = "DELETE FROM ATIVIDADE WHERE id = ?";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1, atividade.getId());
         pstm.executeUpdate();
     }
@@ -158,7 +159,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
         this.addConvidados(atividade);
         //Atualiza dados de atividade
         String sql = "UPDATE ATIVIDADE SET descricao=?, local=?, data=?, horaInicio=?, horaFim=?, tipo=? WHERE id = ?";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1,atividade.getDescricao());
         pstm.setString(2,atividade.getLocal());
         pstm.setDate(3, java.sql.Date.valueOf(atividade.getData()));
@@ -181,7 +182,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
      */
     public void deleteConvidados(Atividade a) throws SQLException{
         String sql = "DELETE FROM ATIVIDADE_CONVIDADO WHERE id_atividade = ?";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1, a.getId());
         pstm.executeUpdate();
     }

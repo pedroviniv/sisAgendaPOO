@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * 
+ * Classe que herda de DefaultTableCellRenderer
  * @author kieckegard
  */
 public class AtividadesCellRenderer extends DefaultTableCellRenderer

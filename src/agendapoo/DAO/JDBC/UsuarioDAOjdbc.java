@@ -5,6 +5,7 @@
  */
 package agendapoo.DAO.JDBC;
 
+import agendapoo.Banco.FactoryConnection;
 import agendapoo.DAO.DAO;
 import agendapoo.DAO.IAtividadeDAO;
 import agendapoo.Model.Usuario;
@@ -36,7 +37,7 @@ public class UsuarioDAOjdbc implements DAO<Usuario>
     public void add(Usuario usuario) throws SQLException, IOException, ClassNotFoundException
     {
         String sql = "INSERT INTO USUARIO VALUES(?,?,?,?,?)";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1, usuario.getEmail());
         pstm.setString(2, usuario.getSenha());
         pstm.setString(3, usuario.getNome());
@@ -62,7 +63,7 @@ public class UsuarioDAOjdbc implements DAO<Usuario>
         
         //And THEN will remove the current User. :)
         String sql = "DELETE FROM USUARIO WHERE email=?";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1, usuario.getEmail());
         pstm.executeUpdate();
     }
@@ -80,7 +81,7 @@ public class UsuarioDAOjdbc implements DAO<Usuario>
     public void update(Usuario usuario) throws SQLException, IOException, ClassNotFoundException
     {
         String sql = "UPDATE USUARIO SET senha=?,dataNascimento=?,telefone=?";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         pstm.setString(1, usuario.getSenha());
         pstm.setDate(2, java.sql.Date.valueOf(usuario.getDataNascimento()));
         pstm.setString(3, usuario.getTelefone());
@@ -99,7 +100,7 @@ public class UsuarioDAOjdbc implements DAO<Usuario>
     {
         List<Usuario> usuarios = new ArrayList<>();
         String sql = "SELECT * FROM USUARIO";
-        pstm = DAOConnection.getConnection().prepareCall(sql);
+        pstm = FactoryConnection.getConnection().prepareCall(sql);
         ResultSet rs = pstm.executeQuery();
         while(rs.next()){
             String nome = rs.getString("nome");

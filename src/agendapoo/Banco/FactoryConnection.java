@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package agendapoo.DAO.JDBC;
+package agendapoo.Banco;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -13,7 +13,7 @@ import java.sql.SQLException;
  * Classe responsável por se conectar com o banco de dados postgresql.
  * @author kieckegard
  */
-public class DAOConnection
+public class FactoryConnection
 {
     private final static String url="jdbc:postgresql://localhost:5432/AgendaPOO";
     private final static String username="postgres";
