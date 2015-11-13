@@ -10,7 +10,8 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * Interface genérica de DAO, ela terá todos os métodos que se farão necessários para a manipulação de
+ * objetos persistidos em arquivos ou em um banco de dados.
  * @author kieckegard
  */
 public interface DAO<T>

@@ -20,8 +20,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- *  Classe responsável pela persistência e manipulação de atividades persistidas no 
- *  Banco de dados. 
+ *  Classe responsável pela persistência e manipulação de atividades no 
+ *  Banco de dados utilizando jdbc.
  * @author kieckegard
  */
 public class AtividadeDAOjdbc implements IAtividadeDAO

@@ -16,7 +16,8 @@ import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 
 /**
- * Classe que herda de DefaultTableCellRenderer
+ * Classe que herda de DefaultTableCellRenderer e sobrescreve o método getTableCellRendererComponent no intuito
+ * de costumizar a criação de todas as células da tabela seguindo as regras de negócio da minha aplicação.
  * @author kieckegard
  */
 public class AtividadesCellRenderer extends DefaultTableCellRenderer

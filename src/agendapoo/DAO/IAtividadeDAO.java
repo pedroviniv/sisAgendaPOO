@@ -12,7 +12,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- *
+ * Interface com alguns métodos responsáveis pela manipulação de atividades referentes a um Usuario específico.
  * @author kieckegard
  */
 public interface IAtividadeDAO extends DAO<Atividade>
