@@ -229,6 +229,7 @@ public class FrmCadastroAtividade extends javax.swing.JFrame
 
         jLabel12.setIcon(new javax.swing.ImageIcon(getClass().getResource("/agendapoo/imgs/clock.png"))); // NOI18N
 
+        textData.setFormat(2);
         textData.setFieldFont(new java.awt.Font("Tahoma", java.awt.Font.PLAIN, 12));
 
         javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);

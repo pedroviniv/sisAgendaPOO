@@ -166,6 +166,7 @@ public class AtividadeDAOjdbc implements IAtividadeDAO
         pstm.setTime(4, java.sql.Time.valueOf(atividade.getHoraInicio()));
         pstm.setTime(5, java.sql.Time.valueOf(atividade.getHoraFim()));
         pstm.setString(6, atividade.getTipo().name());
+        pstm.setString(7, atividade.getId());
         pstm.executeUpdate();
     }
 

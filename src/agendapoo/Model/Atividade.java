@@ -179,6 +179,8 @@ public class Atividade implements Serializable, Comparable<Atividade>
     public int compareTo(Atividade o)
     {
         Period p = Period.between(o.data, data);
+        if(p.getDays()==0)
+            return this.horaInicio.compareTo(o.getHoraInicio());
         return p.getDays();
     }
     

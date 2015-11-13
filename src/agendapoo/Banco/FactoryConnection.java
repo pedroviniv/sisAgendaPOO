@@ -15,7 +15,7 @@ import java.sql.SQLException;
  */
 public class FactoryConnection
 {
-    private final static String url="jdbc:postgresql://localhost:5432/AgendaPOO";
+    private final static String url="jdbc:postgresql://localhost:5432/AgendaPOO2";
     private final static String username="postgres";
     private final static String password="123456";
     private static Connection conn;
